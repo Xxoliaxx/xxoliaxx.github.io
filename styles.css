@@ -7,146 +7,134 @@ body {
     text-align: center;
     overflow-x: hidden;
 }
-
 .page {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 20px;
+    padding: 40px 20px;
     box-sizing: border-box;
+    border-bottom: 1px solid #333;
 }
+h1, h2 { color: #e8b4b8; /* A soft pink for titles */ }
 
-/* Landing Page Specifics */
+/* Landing Page Specifics (Mostly unchanged) */
 .content-box {
     background-color: #2b2b2b;
     padding: 40px;
     border-radius: 15px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     max-width: 500px;
+    width: 90%;
 }
+input[type="password"] { width: 80%; padding: 12px; margin: 20px 0; border-radius: 5px; border: 1px solid #555; background-color: #333; color: #fff; font-size: 1rem; }
+button { padding: 12px 30px; border: none; background-color: #e8b4b8; color: #1a1a1a; font-size: 1rem; font-weight: bold; border-radius: 5px; cursor: pointer; transition: background-color 0.3s; }
+button:hover { background-color: #d89fa3; }
+#error-message { color: #ff8a8a; height: 20px; margin-top: 10px; }
 
-h1, h2 {
-    color: #e8b4b8; /* A soft pink for titles */
-}
-
-input[type="password"] {
-    width: 80%;
-    padding: 12px;
-    margin: 20px 0;
-    border-radius: 5px;
-    border: 1px solid #555;
-    background-color: #333;
-    color: #fff;
-    font-size: 1rem;
-}
-
-button {
-    padding: 12px 30px;
-    border: none;
-    background-color: #e8b4b8;
-    color: #1a1a1a;
-    font-size: 1rem;
-    font-weight: bold;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-button:hover {
-    background-color: #d89fa3;
-}
-
-#error-message {
-    color: #ff8a8a;
-    height: 20px;
-    margin-top: 10px;
-}
-
-
-/* Timeline Section */
-#timeline-section h2 {
-    margin-bottom: 50px;
-}
-
-.timeline {
+/* Section 4: Map Styles */
+.map-container {
     position: relative;
     max-width: 800px;
-    margin: 0 auto;
+    width: 90%;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.5);
 }
-
-/* The vertical line in the middle */
-.timeline::after {
-    content: '';
-    position: absolute;
-    width: 4px;
-    background-color: #e8b4b8;
-    top: 0;
-    bottom: 0;
-    left: 50%;
-    margin-left: -2px;
+.map-container img {
+    width: 100%;
+    display: block;
 }
-
-.timeline-item {
-    padding: 10px 40px;
-    position: relative;
-    width: 50%;
-    box-sizing: border-box;
-    cursor: pointer;
-}
-
-/* Place items on the left or right */
-.timeline-item:nth-child(odd) {
-    left: 0;
-    text-align: right;
-    padding-right: 60px;
-}
-
-.timeline-item:nth-child(even) {
-    left: 50%;
-    text-align: left;
-    padding-left: 60px;
-}
-
-/* The circle on the timeline */
-.timeline-dot {
-    content: '';
+.map-pin {
     position: absolute;
     width: 20px;
     height: 20px;
-    background-color: #2b2b2b;
-    border: 4px solid #e8b4b8;
-    top: 25px;
+    background-color: #ff6b6b;
     border-radius: 50%;
-    z-index: 1;
+    border: 2px solid white;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    animation: pulse 2s infinite;
+}
+.memory-popup {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.9);
+    background-color: #333;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.7);
+    z-index: 10;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, transform 0.3s, visibility 0.3s;
+}
+.memory-popup.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, -50%) scale(1);
+}
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(255, 107, 107, 0.7); }
+    70% { box-shadow: 0 0 0 15px rgba(255, 107, 107, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(255, 107, 107, 0); }
 }
 
-.timeline-item:nth-child(odd) .timeline-dot {
-    right: 30px;
-}
-
-.timeline-item:nth-child(even) .timeline-dot {
-    left: 30px;
-}
-
-.timeline-date {
-    font-weight: bold;
+/* Section 5: Reasons Randomizer */
+#reason-display {
+    min-height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    margin-bottom: 20px;
+    background-color: #1a1a1a;
+    border-radius: 10px;
+    font-size: 1.2rem;
+    font-style: italic;
     color: #e8b4b8;
 }
 
-.timeline-content h3 {
-    margin-top: 5px;
-    margin-bottom: 5px;
+/* Section 6: Coupon Book */
+.coupon-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
 }
-
-/* Initially hide the memory */
-.memory-hidden {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.7s ease-out;
+.coupon-card {
+    width: 280px;
+    height: 180px;
+    perspective: 1000px;
+    cursor: pointer;
 }
-.memory-hidden p {
-    margin-top: 5px;
-    color: #ccc;
+.coupon-front, .coupon-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    transition: transform 0.8s;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    box-sizing: border-box;
 }
+.coupon-front {
+    background: linear-gradient(135deg, #e8b4b8, #d89fa3);
+    color: #1a1a1a;
+    transform: rotateY(0deg);
+}
+.coupon-back {
+    background-color: #2b2b2b;
+    border: 2px dashed #e8b4b8;
+    transform: rotateY(180deg);
+}
+.coupon-card.flipped .coupon-front { transform: rotateY(-180deg); }
+.coupon-card.flipped .coupon-back { transform: rotateY(0deg); }
+.coupon-back h4 { margin: 0; font-size: 1.2rem; }
+.coupon-back p { margin: 10px 0 0; font-size: 0.9rem; }
