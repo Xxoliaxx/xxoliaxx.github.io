@@ -3,7 +3,7 @@
  */
 function checkPassword() {
     // --- SET YOUR PASSWORD HERE ---
-    const correctPassword = "OurSecretPassword"; // Change this to your secret password!
+    const correctPassword = "Gg"; // Change this to your secret password!
 
     const passwordInput = document.getElementById("password-input").value;
     const errorMessage = document.getElementById("error-message");
