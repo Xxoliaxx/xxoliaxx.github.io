@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Adventure</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="landing-page" class="page">
+        <div class="content-box">
+            <h1>Welcome, My Love ❤️</h1>
+            <p>A little journey just for you. Please enter the secret password to begin.</p>
+            <input type="password" id="password-input" placeholder="Password...">
+            <button onclick="checkPassword()">Enter</button>
+            <p id="error-message"></p>
+        </div>
+    </div>
+
+    <main id="main-content" style="display:none;">
+
+        <section id="timeline-section" class="page">
+            <h2>Our Journey So Far</h2>
+            <div class="timeline">
+                <div class="timeline-item" onclick="revealMemory(this)">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-date">August 15, 2023</div>
+                    <div class="timeline-content">
+                        <h3>The Day We Met</h3>
+                        <div class="memory-hidden">
+                            <p>I remember being so nervous, but the moment you smiled, I knew it was the start of something special.</p>
+                            </div>
+                    </div>
+                </div>
+                
+                <div class="timeline-item" onclick="revealMemory(this)">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-date">September 2, 2023</div>
+                    <div class="timeline-content">
+                        <h3>Our First Official Date</h3>
+                        <div class="memory-hidden">
+                            <p>We went to that little Italian place and talked for hours. Best plate of pasta I've ever had!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item" onclick="revealMemory(this)">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-date">February 14, 2024</div>
+                    <div class="timeline-content">
+                        <h3>First Valentine's Day</h3>
+                        <div class="memory-hidden">
+                            <p>You got me my favorite flowers. It was so simple and so perfect.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                </div>
+        </section>
+
+        </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
