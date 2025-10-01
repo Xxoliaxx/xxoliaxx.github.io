@@ -1,9 +1,9 @@
 /**
- * STEP 1: PASSWORD CHECK
+ * SECTION 1: PASSWORD CHECK
  */
 function checkPassword() {
     // --- SET YOUR PASSWORD HERE ---
-    const correctPassword = "BurgerMojo";
+    const correctPassword = "OurSecretPassword"; // Change this to your secret password!
 
     const passwordInput = document.getElementById("password-input").value;
     const errorMessage = document.getElementById("error-message");
@@ -11,63 +11,55 @@ function checkPassword() {
     const mainContent = document.getElementById("main-content");
 
     if (passwordInput === correctPassword) {
-        // Fade out the landing page
         landingPage.style.opacity = '0';
         landingPage.style.transition = 'opacity 0.5s ease-out';
-        
-        // After fade out, hide it and show the main content
         setTimeout(() => {
             landingPage.style.display = 'none';
             mainContent.style.display = 'block';
-        }, 500); // 500ms matches the transition time
-
+        }, 500);
     } else {
         errorMessage.textContent = "Wrong password, silly! Try again.";
-        // Shake animation for fun
-        document.querySelector('.content-box').classList.add('shake');
-        setTimeout(() => {
-            document.querySelector('.content-box').classList.remove('shake');
-        }, 500);
     }
 }
-
-// Optional: Allow pressing Enter to submit password
-document.getElementById("password-input").addEventListener("keyup", function(event) {
-    if (event.key === "Enter") {
-        checkPassword();
-    }
-});
-
+document.getElementById("password-input").addEventListener("keyup", e => e.key === "Enter" && checkPassword());
 
 /**
- * STEP 2: TIMELINE INTERACTIVITY
+ * SECTION 4: MAP INTERACTIVITY
  */
-function revealMemory(timelineItem) {
-    const memory = timelineItem.querySelector('.memory-hidden');
-    
-    // Check if the memory is already shown
-    if (memory.style.maxHeight) {
-        memory.style.maxHeight = null; // Hide it
-    } else {
-        memory.style.maxHeight = memory.scrollHeight + "px"; // Show it
-    }
+function showMemory(id) {
+    closePopups(); // Close any open popups first
+    document.getElementById(id).classList.add('show');
 }
 
+function closePopups() {
+    document.querySelectorAll('.memory-popup').forEach(popup => popup.classList.remove('show'));
+}
 
 /**
- * BONUS: SHAKE ANIMATION CSS
- * We'll add this with JavaScript to keep our CSS file clean.
+ * SECTION 5: REASONS RANDOMIZER
  */
-const style = document.createElement('style');
-style.innerHTML = `
-.shake {
-    animation: shake 0.5s;
+// --- ADD YOUR REASONS HERE! ---
+const reasons = [
+    "because you have the kindest heart.",
+    "because of the way you laugh at my silly jokes.",
+    "because you always know how to make me feel better.",
+    "because you're incredibly smart.",
+    "because you make me feel safe and loved.",
+    "because you're my best friend.",
+    "for always listening to me.",
+    "because you make the best coffee.",
+    "because our adventures are always my favorite.",
+    "for being unapologetically you."
+];
+
+function generateReason() {
+    const randomIndex = Math.floor(Math.random() * reasons.length);
+    document.getElementById('reason-display').textContent = reasons[randomIndex];
 }
-@keyframes shake {
-    0% { transform: translateX(0); }
-    25% { transform: translateX(-10px); }
-    50% { transform: translateX(10px); }
-    75% { transform: translateX(-10px); }
-    100% { transform: translateX(0); }
-}`;
-document.head.appendChild(style);
+
+/**
+ * SECTION 6: COUPON FLIP
+ */
+function flipCoupon(card) {
+    card.classList.toggle('flipped');
+}
