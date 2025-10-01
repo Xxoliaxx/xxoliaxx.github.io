@@ -10,8 +10,8 @@
 
     <div id="landing-page" class="page">
         <div class="content-box">
-            <h1>Welcome, My Love ❤️</h1>
-            <p>A little journey just for you. Please enter the secret password to begin.</p>
+            <h1>Welcome Dumdum ❤️</h1>
+            <p>Happy Boyfriend's day! Please enter the secret password to begin.</p>
             <input type="password" id="password-input" placeholder="Password...">
             <button onclick="checkPassword()">Enter</button>
             <p id="error-message"></p>
@@ -20,46 +20,57 @@
 
     <main id="main-content" style="display:none;">
 
-        <section id="timeline-section" class="page">
-            <h2>Our Journey So Far</h2>
-            <div class="timeline">
-                <div class="timeline-item" onclick="revealMemory(this)">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-date">August 15, 2023</div>
-                    <div class="timeline-content">
-                        <h3>The Day We Met</h3>
-                        <div class="memory-hidden">
-                            <p>I remember being so nervous, but the moment you smiled, I knew it was the start of something special.</p>
-                            </div>
-                    </div>
-                </div>
+        <section id="map-section" class="page">
+            <h2>Map of Our Adventures</h2>
+            <p>Click on a pin to see the memory!</p>
+            <div class="map-container">
+                <img src="map-image.png" alt="Map of our special places">
                 
-                <div class="timeline-item" onclick="revealMemory(this)">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-date">September 2, 2023</div>
-                    <div class="timeline-content">
-                        <h3>Our First Official Date</h3>
-                        <div class="memory-hidden">
-                            <p>We went to that little Italian place and talked for hours. Best plate of pasta I've ever had!</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="timeline-item" onclick="revealMemory(this)">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-date">February 14, 2024</div>
-                    <div class="timeline-content">
-                        <h3>First Valentine's Day</h3>
-                        <div class="memory-hidden">
-                            <p>You got me my favorite flowers. It was so simple and so perfect.</p>
-                        </div>
-                    </div>
-                </div>
+                <div class="map-pin" style="top: 25%; left: 30%;" onclick="showMemory('mem1')"></div>
                 
+                <div class="map-pin" style="top: 60%; left: 55%;" onclick="showMemory('mem2')"></div>
+                
+                <div id="mem1" class="memory-popup">
+                    <h3>Our Favorite Coffee Shop</h3>
+                    <p>Home of the best lattes and our longest talks. ❤️</p>
+                    <button onclick="closePopups()">Close</button>
+                </div>
+                <div id="mem2" class="memory-popup">
+                    <h3>The Park Where We Walk</h3>
+                    <p>So many memories made on this path.</p>
+                    <button onclick="closePopups()">Close</button>
+                </div>
                 </div>
         </section>
 
-        </main>
+        <section id="reasons-section" class="page">
+            <div class="content-box">
+                <h2>A Few Reasons I Love You...</h2>
+                <div id="reason-display">Click the button to see a reason!</div>
+                <button onclick="generateReason()">Show Me Another</button>
+            </div>
+        </section>
+
+        <section id="coupons-section" class="page">
+            <h2>Your Digital Coupon Book</h2>
+            <p>Click a card to reveal your coupon!</p>
+            <div class="coupon-container">
+                <div class="coupon-card" onclick="flipCoupon(this)">
+                    <div class="coupon-front"><h3>Coupon #1</h3><p>(Click to Reveal)</p></div>
+                    <div class="coupon-back"><h4>One Home-Cooked Meal</h4><p>Your choice! I'll make whatever you're craving for dinner.</p></div>
+                </div>
+                <div class="coupon-card" onclick="flipCoupon(this)">
+                    <div class="coupon-front"><h3>Coupon #2</h3><p>(Click to Reveal)</p></div>
+                    <div class="coupon-back"><h4>Movie Night Guru</h4><p>You get to pick the movie. No vetoes from me, I promise!</p></div>
+                </div>
+                <div class="coupon-card" onclick="flipCoupon(this)">
+                    <div class="coupon-front"><h3>Coupon #3</h3><p>(Click to Reveal)</p></div>
+                    <div class="coupon-back"><h4>Chore Pass</h4><p>Redeem this to have me do one of your chores, no questions asked.</p></div>
+                </div>
+                </div>
+        </section>
+
+    </main>
 
     <script src="script.js"></script>
 </body>
