@@ -1,0 +1,152 @@
+/* General Body & Font Styles */
+body {
+    background-color: #1a1a1a;
+    color: #f0f0f0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    text-align: center;
+    overflow-x: hidden;
+}
+
+.page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* Landing Page Specifics */
+.content-box {
+    background-color: #2b2b2b;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    max-width: 500px;
+}
+
+h1, h2 {
+    color: #e8b4b8; /* A soft pink for titles */
+}
+
+input[type="password"] {
+    width: 80%;
+    padding: 12px;
+    margin: 20px 0;
+    border-radius: 5px;
+    border: 1px solid #555;
+    background-color: #333;
+    color: #fff;
+    font-size: 1rem;
+}
+
+button {
+    padding: 12px 30px;
+    border: none;
+    background-color: #e8b4b8;
+    color: #1a1a1a;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #d89fa3;
+}
+
+#error-message {
+    color: #ff8a8a;
+    height: 20px;
+    margin-top: 10px;
+}
+
+
+/* Timeline Section */
+#timeline-section h2 {
+    margin-bottom: 50px;
+}
+
+.timeline {
+    position: relative;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* The vertical line in the middle */
+.timeline::after {
+    content: '';
+    position: absolute;
+    width: 4px;
+    background-color: #e8b4b8;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    margin-left: -2px;
+}
+
+.timeline-item {
+    padding: 10px 40px;
+    position: relative;
+    width: 50%;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
+/* Place items on the left or right */
+.timeline-item:nth-child(odd) {
+    left: 0;
+    text-align: right;
+    padding-right: 60px;
+}
+
+.timeline-item:nth-child(even) {
+    left: 50%;
+    text-align: left;
+    padding-left: 60px;
+}
+
+/* The circle on the timeline */
+.timeline-dot {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background-color: #2b2b2b;
+    border: 4px solid #e8b4b8;
+    top: 25px;
+    border-radius: 50%;
+    z-index: 1;
+}
+
+.timeline-item:nth-child(odd) .timeline-dot {
+    right: 30px;
+}
+
+.timeline-item:nth-child(even) .timeline-dot {
+    left: 30px;
+}
+
+.timeline-date {
+    font-weight: bold;
+    color: #e8b4b8;
+}
+
+.timeline-content h3 {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+/* Initially hide the memory */
+.memory-hidden {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.7s ease-out;
+}
+.memory-hidden p {
+    margin-top: 5px;
+    color: #ccc;
+}
