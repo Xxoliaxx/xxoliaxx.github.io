@@ -3,75 +3,221 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Our Adventure</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
+    <title>Happy Boyfriend's Day!</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Inter font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        /* Set Inter as the primary font and ensure the body covers the full viewport */
+        body {
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
 
-    <div id="landing-page" class="page">
-        <div class="content-box">
-            <h1>Welcome Dumdum ❤️</h1>
-            <p>Happy Boyfriend's day! Please enter the secret password to begin.</p>
-            <input type="password" id="password-input" placeholder="Password...">
-            <button onclick="checkPassword()">Enter</button>
-            <p id="error-message"></p>
+        /* Custom background image styling */
+        .landing-background {
+            /* Cute, warm placeholder image */
+            background-image: url('https://placehold.co/1200x800/fecaca/881c1c?text=Our+Special+Day+%3C3');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed; /* Makes the background scroll less visually */
+        }
+    </style>
+</head>
+
+<body class="landing-background">
+
+    <!-- Main Content Container -->
+    <div id="app" class="w-full max-w-4xl p-4 sm:p-8">
+
+        <!-- 1. LANDING PAGE (Password Gate) -->
+        <div id="landing-view" class="flex flex-col items-center justify-center text-center p-6 sm:p-12 bg-white/80 backdrop-blur-sm rounded-3xl shadow-2xl transition-opacity duration-1000">
+            
+            <h1 class="text-6xl sm:text-7xl lg:text-8xl font-black text-red-700 leading-tight mb-4 tracking-tighter">
+                welcome dumdum
+            </h1>
+            
+            <p class="text-lg sm:text-xl font-semibold text-gray-800 mb-8">
+                Happy Boyfriend's day! Please enter the secret password to begin.
+            </p>
+
+            <div class="flex flex-col sm:flex-row gap-4 w-full max-w-md">
+                <input
+                    type="password"
+                    id="password-input"
+                    placeholder="Enter password..."
+                    class="flex-grow p-3 border-2 border-red-300 rounded-xl focus:ring-4 focus:ring-red-500 focus:border-red-500 outline-none text-center sm:text-left text-lg transition-all duration-300"
+                    onkeydown="if(event.key === 'Enter') checkPassword()"
+                />
+                <button
+                    id="submit-button"
+                    onclick="checkPassword()"
+                    class="w-full sm:w-auto px-6 py-3 bg-red-600 text-white font-bold rounded-xl shadow-lg hover:bg-red-700 transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98] text-lg"
+                >
+                    Go!
+                </button>
+            </div>
+            
+            <!-- Error Message Box -->
+            <div id="error-message" class="mt-4 text-red-600 font-medium opacity-0 transition-opacity duration-300">
+                Wrong password, my love. Try again!
+            </div>
         </div>
+
+        <!-- 2. REASONS PAGE (Hidden by default) -->
+        <div id="reasons-view" class="hidden flex flex-col items-center justify-center text-center p-6 sm:p-12 bg-white/90 backdrop-blur-sm rounded-3xl shadow-2xl transition-opacity duration-1000">
+            
+            <h1 class="text-4xl sm:text-6xl font-extrabold text-red-600 mb-6">
+                A Few Reasons I Love You...
+            </h1>
+            
+            <p class="text-xl sm:text-2xl font-medium text-gray-700 mb-8">
+                Let's reveal some of the endless reasons I adore you.
+            </p>
+
+            <!-- Card for displaying the reason -->
+            <div id="reason-card" class="h-40 w-full max-w-xl mb-8 flex items-center justify-center text-center bg-red-100 p-6 rounded-2xl shadow-inner border-2 border-red-300 transition-all duration-500 transform scale-0 opacity-0">
+                <p id="reason-text" class="text-xl sm:text-2xl font-semibold text-red-800 italic">
+                    <!-- Reasons will appear here -->
+                </p>
+            </div>
+
+            <!-- Click Button -->
+            <button
+                onclick="showNextReason()"
+                class="px-8 py-4 bg-pink-500 text-white font-extrabold text-xl rounded-full shadow-xl hover:bg-pink-600 transition-all duration-300 transform hover:scale-[1.05] active:scale-[0.98] border-4 border-white"
+            >
+                Click here to know why?
+            </button>
+        </div>
+
     </div>
 
-    <main id="main-content" style="display:none;">
+    <!-- JavaScript Logic -->
+    <script>
+        // --- Configuration and Data ---
+        const SECRET_PASSWORD = "iloveyou"; 
 
-        <section id="map-section" class="page">
-            <h2>Map of Our Adventures</h2>
-            <p>Click on a pin to see the memory!</p>
-            <div class="map-container">
-                <img src="map-image.png" alt="Map of our special places">
-                
-                <div class="map-pin" style="top: 25%; left: 30%;" onclick="showMemory('mem1')"></div>
-                
-                <div class="map-pin" style="top: 60%; left: 55%;" onclick="showMemory('mem2')"></div>
-                
-                <div id="mem1" class="memory-popup">
-                    <h3>Our Favorite Coffee Shop</h3>
-                    <p>Home of the best lattes and our longest talks. ❤️</p>
-                    <button onclick="closePopups()">Close</button>
-                </div>
-                <div id="mem2" class="memory-popup">
-                    <h3>The Park Where We Walk</h3>
-                    <p>So many memories made on this path.</p>
-                    <button onclick="closePopups()">Close</button>
-                </div>
-                </div>
-        </section>
+        const REASONS_I_LOVE_YOU = [
+            "Your laugh is my favorite sound in the world, and I could listen to it forever.",
+            "You always know how to make me feel safe, cherished, and completely understood.",
+            "The way you tackle a challenge shows me how strong and determined you are. You inspire me!",
+            "You are the most thoughtful and kind person I've ever met. Everything you do is so sweet.",
+            "I love that you are truly yourself around me. That makes me feel like I can be truly myself too.",
+            "Just seeing your face at the end of the day makes everything better. You're my comfort.",
+            "I love your goofy side! Our inside jokes and silly moments are what I treasure the most.",
+            "You make the mundane extraordinary. Doing absolutely nothing with you is my favorite thing to do.",
+        ];
 
-        <section id="reasons-section" class="page">
-            <div class="content-box">
-                <h2>A Few Reasons I Love You...</h2>
-                <div id="reason-display">Click the button to see a reason!</div>
-                <button onclick="generateReason()">Show Me Another</button>
-            </div>
-        </section>
+        let reasonHistory = []; // To keep track of reasons shown
+        
+        // --- DOM Elements ---
+        const landingView = document.getElementById('landing-view');
+        const reasonsView = document.getElementById('reasons-view');
+        const passwordInput = document.getElementById('password-input');
+        const errorMessage = document.getElementById('error-message');
+        const reasonCard = document.getElementById('reason-card');
+        const reasonText = document.getElementById('reason-text');
+        
+        // --- Logic Functions ---
 
-        <section id="coupons-section" class="page">
-            <h2>Your Digital Coupon Book</h2>
-            <p>Click a card to reveal your coupon!</p>
-            <div class="coupon-container">
-                <div class="coupon-card" onclick="flipCoupon(this)">
-                    <div class="coupon-front"><h3>Coupon #1</h3><p>(Click to Reveal)</p></div>
-                    <div class="coupon-back"><h4>One Home-Cooked Meal</h4><p>Your choice! I'll make whatever you're craving for dinner.</p></div>
-                </div>
-                <div class="coupon-card" onclick="flipCoupon(this)">
-                    <div class="coupon-front"><h3>Coupon #2</h3><p>(Click to Reveal)</p></div>
-                    <div class="coupon-back"><h4>Movie Night Guru</h4><p>You get to pick the movie. No vetoes from me, I promise!</p></div>
-                </div>
-                <div class="coupon-card" onclick="flipCoupon(this)">
-                    <div class="coupon-front"><h3>Coupon #3</h3><p>(Click to Reveal)</p></div>
-                    <div class="coupon-back"><h4>Chore Pass</h4><p>Redeem this to have me do one of your chores, no questions asked.</p></div>
-                </div>
-                </div>
-        </section>
+        /**
+         * Toggles the visibility of the two main pages based on state.
+         * @param {string} state - 'landing' or 'reasons'
+         */
+        function updateView(state) {
+            if (state === 'reasons') {
+                landingView.classList.add('hidden');
+                reasonsView.classList.remove('hidden');
+                setTimeout(() => {
+                    // Make sure the reasons view is opaque after being displayed
+                    reasonsView.classList.remove('opacity-0');
+                }, 10);
+            } else {
+                landingView.classList.remove('hidden');
+                reasonsView.classList.add('hidden');
+                setTimeout(() => {
+                    // Make sure the landing view is opaque after being displayed
+                    landingView.classList.remove('opacity-0');
+                }, 10);
+            }
+        }
 
-    </main>
+        /**
+         * Checks the password and switches the view if correct.
+         */
+        function checkPassword() {
+            const enteredPassword = passwordInput.value.trim().toLowerCase();
+            
+            if (enteredPassword === SECRET_PASSWORD) {
+                errorMessage.classList.add('opacity-0');
+                errorMessage.textContent = "";
+                // Transition to the main page
+                landingView.classList.add('opacity-0');
+                setTimeout(() => updateView('reasons'), 500);
+            } else {
+                // Display error message
+                errorMessage.textContent = "Wrong password, my love. Try again!";
+                errorMessage.classList.remove('opacity-0');
+                passwordInput.value = ''; // Clear the input
+                passwordInput.focus();
+            }
+        }
 
-    <script src="script.js"></script>
+        /**
+         * Selects and displays a new random reason, ensuring it hasn't been shown recently.
+         */
+        function showNextReason() {
+            // 1. Hide the current card with animation
+            reasonCard.classList.remove('scale-100', 'opacity-100');
+            reasonCard.classList.add('scale-0', 'opacity-0');
+
+            setTimeout(() => {
+                // 2. Select a new reason
+                let newReason;
+                let availableReasons = REASONS_I_LOVE_YOU.filter(r => !reasonHistory.includes(r));
+
+                // If we ran out of new reasons, reset the history
+                if (availableReasons.length === 0) {
+                    reasonHistory = [];
+                    availableReasons = REASONS_I_LOVE_YOU;
+                }
+
+                // Pick a random reason from the available list
+                const randomIndex = Math.floor(Math.random() * availableReasons.length);
+                newReason = availableReasons[randomIndex];
+
+                // Update history (keep max 3 in history to ensure cycling)
+                reasonHistory.push(newReason);
+                if (reasonHistory.length > 3) {
+                    reasonHistory.shift();
+                }
+
+                // 3. Update the text
+                reasonText.textContent = newReason;
+
+                // 4. Show the new card with animation
+                setTimeout(() => {
+                    reasonCard.classList.remove('scale-0', 'opacity-0');
+                    reasonCard.classList.add('scale-100', 'opacity-100');
+                }, 100); // Short delay before showing again
+            }, 300); // Wait for the hide animation to finish
+        }
+
+        // --- Initialization ---
+        window.onload = function() {
+            // Start on the landing page
+            updateView('landing'); 
+            passwordInput.focus();
+        };
+
+    </script>
 </body>
 </html>
