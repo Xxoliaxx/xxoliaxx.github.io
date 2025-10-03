@@ -45,7 +45,7 @@
             </h1>
             
             <p class="text-lg sm:text-xl font-semibold text-gray-800 mb-8">
-                Please enter the password to begin. Think about what we always call each other.
+                Please enter the password to begin. Think of a game you always play.
             </p>
 
             <div class="flex flex-col sm:flex-row gap-4 w-full max-w-md">
@@ -67,7 +67,7 @@
             
             <!-- Error Message Box -->
             <div id="error-message" class="mt-4 text-red-600 font-medium opacity-0 transition-opacity duration-300">
-                Wrong password, wittle one. Try again! (Think of a game)
+                Wrong password, wittle one. Try again!
             </div>
         </div>
 
@@ -228,7 +228,7 @@
                 setTimeout(() => updateView('reasons'), 500);
             } else {
                 // Display error message
-                errorMessage.textContent = "Wrong password, wittle one. Try again! (Think of a game)";
+                errorMessage.textContent = "Wrong password, wittle one. Try again!";
                 errorMessage.classList.remove('opacity-0');
                 passwordInput.value = ''; // Clear the input
                 passwordInput.focus();
