@@ -96,6 +96,42 @@
             >
                 Click here to know why?
             </button>
+            
+            <button
+                onclick="updateView('coupons')"
+                class="px-6 py-3 bg-red-400 text-white font-bold rounded-xl shadow-lg hover:bg-red-500 transition-all duration-300 transform hover:scale-105 active:scale-95 text-lg"
+            >
+                Next Surprise: Your Coupons.
+            </button>
+        </div>
+        <!-- 3. COUPONS PAGE (Hidden by default) -->
+        <div id="coupons-view" class="hidden flex flex-col items-center justify-center text-center p-6 sm:p-12 bg-white/95 backdrop-blur-sm rounded-3xl shadow-2xl transition-opacity duration-1000">
+            
+            <h1 class="text-4xl sm:text-6xl font-extrabold text-purple-600 mb-6">
+                Your Personal Coupon Book! 💖
+            </h1>
+            
+            <p class="text-xl sm:text-2xl font-medium text-gray-700 mb-8">
+                Click below to reveal a new coupon you can redeem from me anytime.
+            </p>
+
+            <!-- Card for displaying the coupon -->
+            <div id="coupon-card" class="h-40 w-full max-w-xl mb-8 flex flex-col items-center justify-center text-center bg-purple-100 p-6 rounded-2xl shadow-xl border-4 border-purple-400 border-dashed transition-all duration-500 transform scale-0 opacity-0">
+                <p class="text-sm font-light text-purple-600 mb-1">
+                    Redeemable by Dec 31, 2025
+                </p>
+                <p id="coupon-text" class="text-xl sm:text-2xl font-bold text-purple-800 tracking-wide">
+                    <!-- Coupons will appear here -->
+                </p>
+            </div>
+
+            <!-- Click Button -->
+            <button
+                onclick="showNextCoupon()"
+                class="px-8 py-4 bg-purple-500 text-white font-extrabold text-xl rounded-full shadow-2xl hover:bg-purple-600 transition-all duration-300 transform hover:scale-[1.05] active:scale-[0.98] border-4 border-white"
+            >
+                Reveal Coupon! ✨
+            </button>
         </div>
 
     </div>
@@ -116,40 +152,66 @@
             "I love your bui side! Our inside jokes and silly moments are what I treasure the most.",
             "Doing absolutely nothing with you is also fun.",
             "You pay attention to everything I say, even if it's something you don't really care about.",
+            "I love the calm, solid peace I feel whenever I'm just sitting quietly next to you.",
+            "You're my favorite teammate, whether we're doing a project, cooking, or solving a problem."
+        ];
+
+        const COUPONS = [
+            "Free cuddles on demand (24/7 validity).",
+            "A home-cooked meal of your choice.",
+            "One back or foot rub.",
+            "Control of the remote for one full movie night.",
+            "A surprise date planned entirely by me!",
+            "One 'I was wrong' coupon (use carefully).",
+            "The 'Emergency Hug' Card: A temporary truce during any disagreement for mandatory cuddles.",
+            "Game night, any game of your choice.",
         ];
 
         let reasonHistory = []; // To keep track of reasons shown
+        let couponHistory = []; // To keep track of coupons shown
+        
         
         // --- DOM Elements ---
         const landingView = document.getElementById('landing-view');
         const reasonsView = document.getElementById('reasons-view');
+        const couponsView = document.getElementById('coupons-view'); // New view element
         const passwordInput = document.getElementById('password-input');
         const errorMessage = document.getElementById('error-message');
         const reasonCard = document.getElementById('reason-card');
         const reasonText = document.getElementById('reason-text');
+        const couponCard = document.getElementById('coupon-card'); // New card element
+        const couponText = document.getElementById('coupon-text'); // New text element
         
         // --- Logic Functions ---
 
         /**
-         * Toggles the visibility of the two main pages based on state.
-         * @param {string} state - 'landing' or 'reasons'
+         * Toggles the visibility of the main pages based on state.
+         * @param {string} state - 'landing', 'reasons', or 'coupons'
          */
         function updateView(state) {
+            // Hide all views first
+            landingView.classList.add('hidden', 'opacity-0');
+            reasonsView.classList.add('hidden', 'opacity-0');
+            couponsView.classList.add('hidden', 'opacity-0');
+
+            let targetView;
             if (state === 'reasons') {
-                landingView.classList.add('hidden');
-                reasonsView.classList.remove('hidden');
-                setTimeout(() => {
-                    // Make sure the reasons view is opaque after being displayed
-                    reasonsView.classList.remove('opacity-0');
-                }, 10);
+                targetView = reasonsView;
+            } else if (state === 'coupons') {
+                targetView = couponsView;
+                // Pre-hide the coupon card when transitioning to the page
+                couponCard.classList.remove('scale-100', 'opacity-100');
+                couponCard.classList.add('scale-0', 'opacity-0');
             } else {
-                landingView.classList.remove('hidden');
-                reasonsView.classList.add('hidden');
-                setTimeout(() => {
-                    // Make sure the landing view is opaque after being displayed
-                    landingView.classList.remove('opacity-0');
-                }, 10);
+                targetView = landingView;
             }
+
+            // Show the target view
+            targetView.classList.remove('hidden');
+            // Give a moment for the DOM to update visibility before applying opacity
+            setTimeout(() => {
+                targetView.classList.remove('opacity-0');
+            }, 10);
         }
 
         /**
@@ -161,7 +223,7 @@
             if (enteredPassword === SECRET_PASSWORD) {
                 errorMessage.classList.add('opacity-0');
                 errorMessage.textContent = "";
-                // Transition to the main page
+                // Transition to the reasons page
                 landingView.classList.add('opacity-0');
                 setTimeout(() => updateView('reasons'), 500);
             } else {
@@ -209,6 +271,46 @@
                 setTimeout(() => {
                     reasonCard.classList.remove('scale-0', 'opacity-0');
                     reasonCard.classList.add('scale-100', 'opacity-100');
+                }, 100); // Short delay before showing again
+            }, 300); // Wait for the hide animation to finish
+        }
+
+        /**
+         * Selects and displays a new random coupon, ensuring it hasn't been shown recently.
+         */
+        function showNextCoupon() {
+            // 1. Hide the current card with animation
+            couponCard.classList.remove('scale-100', 'opacity-100');
+            couponCard.classList.add('scale-0', 'opacity-0');
+
+            setTimeout(() => {
+                // 2. Select a new coupon
+                let newCoupon;
+                let availableCoupons = COUPONS.filter(c => !couponHistory.includes(c));
+
+                // If we ran out of new coupons, reset the history
+                if (availableCoupons.length === 0) {
+                    couponHistory = [];
+                    availableCoupons = COUPONS;
+                }
+
+                // Pick a random coupon from the available list
+                const randomIndex = Math.floor(Math.random() * availableCoupons.length);
+                newCoupon = availableCoupons[randomIndex];
+
+                // Update history (keep max 3 in history to ensure cycling)
+                couponHistory.push(newCoupon);
+                if (couponHistory.length > 3) {
+                    couponHistory.shift();
+                }
+
+                // 3. Update the text
+                couponText.textContent = newCoupon;
+
+                // 4. Show the new card with animation
+                setTimeout(() => {
+                    couponCard.classList.remove('scale-0', 'opacity-0');
+                    couponCard.classList.add('scale-100', 'opacity-100');
                 }, 100); // Short delay before showing again
             }, 300); // Wait for the hide animation to finish
         }
